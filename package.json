@@ -1,0 +1,14 @@
+{
+  "name": "backend",
+  "version": "0.1.0",
+  "description": "Backend for WebAuthn debugging tool",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "author": "Martiño Rivera Dourado (@martinord)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
