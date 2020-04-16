@@ -23,8 +23,7 @@ app.use(session({
     clear_interval: 10000,
     resave: true,
     cookie: {
-        maxAge: 1 * 60 * 60, // = 1h
-        httpOnly: false
+        httpOnly: true  // prevent client-side JS to access cookie (OWASP)
     },
     saveUninitialized: true,
     store: new mongoStore({ 
