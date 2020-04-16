@@ -1,4 +1,5 @@
-# Backend for WebAuthn debugging tool
+# DebAuthn Backend
+__WebAuthn Authenticator Debugging Tool__
 
 ## Start
 
