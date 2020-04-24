@@ -4,8 +4,14 @@ const { PublicKeyCredentialCreationOptions,
         PublicKeyCredentialCreationExpectations 
     } = require('./models/attestation.model')
 
+const { PublicKeyCredentialRequestOptions,
+        AuthenticatorAssertionResponse,
+        PublicKeyCredentialRequestExpectations
+} = require('./models/assertion.model')
 var wauth = new fido2lib({
-    // TODO: Configure library instance
+    rpId: "localhost",
+    rpName: "DebAuthn",
+    // authenticatorRequireResidentKey: false
 })
 
 /**
@@ -28,6 +34,36 @@ exports.beginAttestation = async function(origin, factor){
 
 exports.finishAttestation = async function(attResponse, attExpectations){
     attResponse = AuthenticatorAttestationResponse.decode(attResponse)
-    attResult = await wauth.attestationResult(attResponse, attExpectations)
-    return attResult
+    attResult = await wauth.attestationResult(attResponse, attExpectations)     
+    return { 
+        result: attResult, 
+        credential: {
+            publicKey: attResult.authnrData.get('credentialPublicKeyPem'),
+            counter: attResult.authnrData.get('counter'),
+            rawId: Buffer.from(attResult.authnrData.get('credId')).toString('base64')
+        }
+    }
+}
+
+exports.beginAssertion = async function(origin, factor, allowCredentials){
+    options = await wauth.assertionOptions()
+    // Assign expectations for Attestation to be stored
+    options.allowCredentials = [{ id: allowCredentials[0].rawId }] // TODO: change with model, only supports one
+    options = PublicKeyCredentialRequestOptions.encode(options)
+    expectations = new PublicKeyCredentialRequestExpectations(
+        options.challenge,
+        origin,
+        factor,
+        allowCredentials[0].publicKey,  // TODO: change, only supports one
+        allowCredentials[0].counter,    
+        null    // user handle
+    )
+    return { options: options, expectations: expectations } 
+}
+
+exports.finishAssertion = async function(assResponse, assExpectations){
+    assResponse = AuthenticatorAssertionResponse.decode(assResponse)
+    assResult = await wauth.assertionResult(assResponse, assExpectations)
+
+    return { result: assResult,/* counter: ....*/ }
 }

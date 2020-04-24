@@ -17,3 +17,7 @@ Use only for development purposes
 mkdir tls
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls/private.key -out tls/certificate.crt
 ```
+
+## Bugs
+
+Applied this PR manually into FIDO2 library: https://github.com/webauthn-open-source/fido2-lib/pull/25
