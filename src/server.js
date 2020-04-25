@@ -6,9 +6,6 @@ const express = require('express'),
       fs = require('fs'),
       https = require('https')
 const config = require('./config/server.js')    // configuration file
-var privateKey  = fs.readFileSync(config.tls.privateKey, 'utf8')    // TLS
-var certificate = fs.readFileSync(config.tls.certificate, 'utf8')   // TLS
-var tls = {key: privateKey, cert: certificate}; // TLS
 const app = express()
 
 // Connect to Mongo
@@ -42,8 +39,18 @@ app.use('/', express.static('src/public'))
 // Load routes
 app.use('/', require('./routes'))
 
-// Configure HTTPS
-var httpsServer = https.createServer(tls, app);
+if(config.tlsEnabled){
+    // Configure HTTPS
+    var httpsServer = https.createServer(tls, app);
 
-const port = config.port
-httpsServer.listen(port, () => console.log(`Basic app listening on https://localhost:${port}/ !`))
+    var privateKey  = fs.readFileSync(config.tls.privateKey, 'utf8')    // TLS
+    var certificate = fs.readFileSync(config.tls.certificate, 'utf8')   // TLS
+    var tls = {key: privateKey, cert: certificate}; // TLS
+    
+    const port = config.port
+    httpsServer.listen(port, () => console.log(`Basic app listening on https://localhost:${port}/ !`))
+} else{
+    // Configure HTTP
+    const port = config.port
+    app.listen(port, () => console.log(`Basic app listening on http://localhost:${port}/ !`))
+}
