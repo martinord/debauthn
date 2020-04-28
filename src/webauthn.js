@@ -1,4 +1,5 @@
 const fido2lib = require('fido2-lib').Fido2Lib
+const config = require('./config/webauthn')
 const { PublicKeyCredentialCreationOptions, 
         AuthenticatorAttestationResponse,
         PublicKeyCredentialCreationExpectations 
@@ -9,8 +10,8 @@ const { PublicKeyCredentialRequestOptions,
         PublicKeyCredentialRequestExpectations
 } = require('./models/assertion.model')
 var wauth = new fido2lib({
-    rpId: "localhost",
-    rpName: "DebAuthn",
+    rpId: config.rpId,
+    rpName: config.rpName,
     // authenticatorRequireResidentKey: false
 })
 
