@@ -41,12 +41,12 @@ app.use('/', require('./routes'))
 
 if(config.tlsEnabled){
     // Configure HTTPS
-    var httpsServer = https.createServer(tls, app);
-
     var privateKey  = fs.readFileSync(config.tls.privateKey, 'utf8')    // TLS
     var certificate = fs.readFileSync(config.tls.certificate, 'utf8')   // TLS
     var tls = {key: privateKey, cert: certificate}; // TLS
-    
+
+    var httpsServer = https.createServer(tls, app);
+
     const port = config.port
     httpsServer.listen(port, () => console.log(`Basic app listening on https://localhost:${port}/ !`))
 } else{
