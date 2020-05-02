@@ -20,10 +20,13 @@ exports.options = async function(req, res, next){
 exports.result = async function(req, res, next){
     assExpectations = req.session.assExpectations
     assResponse = req.body
-    
-    ass = await wauth.finishAssertion(assResponse, assExpectations)
-    // stores new counter and sends assertion result
-    // req.session.allowCredentials[0].counter = ass.counter   // only supports one registered credential
-    res.send(ass.result)
-    next()
+    try {
+        ass = await wauth.finishAssertion(assResponse, assExpectations)
+        // stores new counter and sends assertion result
+        // req.session.allowCredentials[0].counter = ass.counter   // only supports one registered credential
+        res.send(ass.result)
+        next()
+    } catch (err) {
+        next(err)   // send to error handler
+    }
 }

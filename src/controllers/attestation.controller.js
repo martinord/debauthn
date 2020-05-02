@@ -19,10 +19,13 @@ exports.result = async function(req, res, next){
     attExpectations = req.session.attExpectations
     attResponse = req.body
     
-    att = await wauth.finishAttestation(attResponse, attExpectations)
-    // stores credential and sends attestation result
-    req.session.allowCredentials = [att.credential]   // only supports one registered credential
-    res.send(att.result)
-
-    next()
+    try{
+        att = await wauth.finishAttestation(attResponse, attExpectations)
+        // stores credential and sends attestation result
+        req.session.allowCredentials = [att.credential]   // only supports one registered credential
+        res.send(att.result)
+        next()
+    } catch(err) {
+        next(err)   // send to error handler
+    }
 }

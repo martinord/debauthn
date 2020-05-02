@@ -39,6 +39,13 @@ app.use('/', express.static('src/public'))
 // Load routes
 app.use('/', require('./routes'))
 
+// Load error handler
+app.use(function (err, req, res, next) {
+    console.error(err.stack)
+    res.status(500).send(err.message)
+    next()
+})
+
 if(config.tlsEnabled){
     // Configure HTTPS
     var privateKey  = fs.readFileSync(config.tls.privateKey, 'utf8')    // TLS
