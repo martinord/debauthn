@@ -1,5 +1,8 @@
 const buff = require('./helpers').buff
 
+/**
+ * https://www.w3.org/TR/webauthn/#assertion-options
+ */
 class PublicKeyCredentialRequestOptions {
     /**
      * Creates an object from an base64 buffers encoded object
@@ -7,14 +10,28 @@ class PublicKeyCredentialRequestOptions {
      */
     static decode(o){
         var obj = {}
+
+        // required
         obj.challenge = buff.decode(o.challenge)
-        obj.timeout = o.timeout
-        obj.allowCredentials = [    // TODO: only supports one credential
-            {
-                type: "public-key",
-                id: buff.decode(o.allowCredentials[0].id) 
-            }
-        ]
+        
+        // optional
+        if(o.timeout)
+            obj.timeout = o.timeout
+
+        if(o.allowCredentials)
+            obj.allowCredentials = [    // TODO: only supports one credential
+                {
+                    type: "public-key",
+                    id: buff.decode(o.allowCredentials[0].id) 
+                }
+            ]
+        
+        // if(o.userVerification)
+        //     obj.userVerification = o.userVerification
+        
+        // if(o.extensions)
+        //     obj.extensions = o.extensions
+
         return obj;
     }
     
@@ -23,10 +40,29 @@ class PublicKeyCredentialRequestOptions {
      * @param {} o PublicKeyCredentialRequestOptions
      */
     static encode(o){
-        var obj = {}
-        obj.timeout = o.timeout
-        obj.allowCredentials = o.allowCredentials
+       var obj = {}
+
+        // required
         obj.challenge = buff.encode(o.challenge)
+        
+        // optional
+        if(o.timeout)
+            obj.timeout = o.timeout
+
+        if(o.allowCredentials)
+            obj.allowCredentials = [    // TODO: only supports one credential
+                {
+                    type: "public-key",
+                    id: buff.encode(o.allowCredentials[0].id) 
+                }
+            ]
+        
+        // if(o.userVerification)
+        //     obj.userVerification = o.userVerification
+        
+        // if(o.extensions)
+        //     obj.extensions = o.extensions
+        
         return obj;
     }
 }

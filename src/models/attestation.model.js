@@ -1,5 +1,8 @@
 const buff = require('./helpers').buff
 
+/**
+ * https://www.w3.org/TR/webauthn/#dictionary-makecredentialoptions
+ */
 class PublicKeyCredentialCreationOptions {
     /**
      * Creates an object from an base64 buffers encoded object
@@ -7,12 +10,25 @@ class PublicKeyCredentialCreationOptions {
      */
     static decode(o){
         var obj = {}
-        obj.attestation = o.attestation;
+
+        // required
         obj.rp = o.rp;
         obj.user = o.user;
-        obj.pubKeyCredParams = o.pubKeyCredParams;
-        obj.challenge = buff.decode(o.challenge);
         obj.user.id = buff.decode(o.user.id);
+        obj.challenge = buff.decode(o.challenge);
+        obj.pubKeyCredParams = o.pubKeyCredParams;
+        
+        // optional
+        if(o.attestation)
+            obj.attestation = o.attestation;
+        // if(o.timeout)
+        //     obj.timeout = o.timeout
+        // if(o.excludeCredentials)
+        //     obj.excludeCredentials = o.excludeCredentials
+        // if(o.authenticatorSelection)
+        //     obj.authenticatorSelection = o.authenticatorSelection
+        // if(o.extensions)
+        //     obj.extensions = o.extensions
         return obj;
     }
     
@@ -22,12 +38,25 @@ class PublicKeyCredentialCreationOptions {
      */
     static encode(o){
         var obj = {}
-        obj.attestation = o.attestation;
+
+        // required
         obj.rp = o.rp;
         obj.user = o.user;
-        obj.pubKeyCredParams = o.pubKeyCredParams;
-        obj.challenge = buff.encode(o.challenge);
         obj.user.id = buff.encode(o.user.id);
+        obj.challenge = buff.encode(o.challenge);
+        obj.pubKeyCredParams = o.pubKeyCredParams;
+        
+        // optional
+        if(o.attestation)
+            obj.attestation = o.attestation;
+        // if(o.timeout)
+        //     obj.timeout = o.timeout
+        // if(o.excludeCredentials)
+        //     obj.excludeCredentials = o.excludeCredentials
+        // if(o.authenticatorSelection)
+        //     obj.authenticatorSelection = o.authenticatorSelection
+        // if(o.extensions)
+        //     obj.extensions = o.extensions
         return obj;
     }
 }
