@@ -26,8 +26,11 @@ class PublicKeyCredentialRequestOptions {
                 }
             ]
         
-        // if(o.userVerification)
-        //     obj.userVerification = o.userVerification
+        if(o.userVerification)
+            obj.userVerification = o.userVerification
+
+        if(o.rp)
+            obj.rp = { id: buff.decode(o.rp.id) }
         
         // if(o.extensions)
         //     obj.extensions = o.extensions
@@ -57,8 +60,11 @@ class PublicKeyCredentialRequestOptions {
                 }
             ]
         
-        // if(o.userVerification)
-        //     obj.userVerification = o.userVerification
+        if(o.userVerification)
+            obj.userVerification = o.userVerification
+
+        if(o.rp)
+            obj.rp = { id: buff.encode(o.rp.id) }
         
         // if(o.extensions)
         //     obj.extensions = o.extensions

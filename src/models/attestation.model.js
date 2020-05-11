@@ -21,12 +21,12 @@ class PublicKeyCredentialCreationOptions {
         // optional
         if(o.attestation)
             obj.attestation = o.attestation;
-        // if(o.timeout)
-        //     obj.timeout = o.timeout
-        // if(o.excludeCredentials)
-        //     obj.excludeCredentials = o.excludeCredentials
-        // if(o.authenticatorSelection)
-        //     obj.authenticatorSelection = o.authenticatorSelection
+        if(o.timeout)
+            obj.timeout = o.timeout
+        if(o.excludeCredentials)
+            obj.excludeCredentials = o.excludeCredentials
+        if(o.authenticatorSelection)
+            obj.authenticatorSelection = o.authenticatorSelection
         // if(o.extensions)
         //     obj.extensions = o.extensions
         return obj;
@@ -49,12 +49,12 @@ class PublicKeyCredentialCreationOptions {
         // optional
         if(o.attestation)
             obj.attestation = o.attestation;
-        // if(o.timeout)
-        //     obj.timeout = o.timeout
-        // if(o.excludeCredentials)
-        //     obj.excludeCredentials = o.excludeCredentials
-        // if(o.authenticatorSelection)
-        //     obj.authenticatorSelection = o.authenticatorSelection
+        if(o.timeout)
+            obj.timeout = o.timeout
+        if(o.excludeCredentials)
+            obj.excludeCredentials = o.excludeCredentials
+        if(o.authenticatorSelection)
+            obj.authenticatorSelection = o.authenticatorSelection
         // if(o.extensions)
         //     obj.extensions = o.extensions
         return obj;
