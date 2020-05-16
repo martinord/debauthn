@@ -52,3 +52,15 @@ exports.buff = {
         return thing
     }
 }
+
+exports.mapToJSON = function (map) {
+    // if (typeof map !== "map")
+    //     throw new TypeError("Cannot convert to object. Type is not Map")
+
+    var array = Array.from(map.entries()) // array of touples
+    var obj = {}
+    array.forEach(function(data){
+        obj[data[0]] = data[1]
+    })
+    return obj
+}

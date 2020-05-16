@@ -9,6 +9,9 @@ const { PublicKeyCredentialRequestOptions,
         AuthenticatorAssertionResponse,
         PublicKeyCredentialRequestExpectations
 } = require('./models/assertion.model')
+
+const { Validation } = require('./models/validation.model')
+
 var wauth = new fido2lib({
     rpId: config.rpId,
     rpName: config.rpName,
@@ -37,7 +40,13 @@ exports.finishAttestation = async function(attResponse, attExpectations){
     attResponse = AuthenticatorAttestationResponse.decode(attResponse)
     attResult = await wauth.attestationResult(attResponse, attExpectations)     
     return { 
-        result: attResult, 
+        result: new Validation({
+            complete: attResult.audit.complete,
+            info: attResult.audit.info,
+            warning: attResult.audit.warning,
+            authnrData: attResult.authnrData,
+            clientData: attResult.clientData
+        }),
         credential: {
             publicKey: attResult.authnrData.get('credentialPublicKeyPem'),
             counter: attResult.authnrData.get('counter'),
@@ -66,5 +75,13 @@ exports.finishAssertion = async function(assResponse, assExpectations){
     assResponse = AuthenticatorAssertionResponse.decode(assResponse)
     assResult = await wauth.assertionResult(assResponse, assExpectations)
 
-    return { result: assResult,/* counter: ....*/ }
+    return {
+        result: new Validation({
+            complete: assResult.audit.complete,
+            info: assResult.audit.info,
+            warning: assResult.audit.warning,
+            authnrData: assResult.authnrData,
+            clientData: assResult.clientData
+        }),
+        /* counter: ....*/ }
 }
