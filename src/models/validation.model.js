@@ -7,7 +7,7 @@ exports.Validation = class Validation {
      */
     constructor(params) {
         this.complete = params.complete
-        this.warning = Array.from(params.warning.entries)
+        this.warnings = Array.from(params.warning.entries())
         this.data = {
             info: mapToJSON(params.info),
             authnrData: mapToJSON(params.authnrData),
