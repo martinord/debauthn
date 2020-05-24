@@ -54,13 +54,17 @@ exports.buff = {
 }
 
 exports.mapToJSON = function (map) {
-    // if (typeof map !== "map")
-    //     throw new TypeError("Cannot convert to object. Type is not Map")
+    if (!(map instanceof Map))
+        throw new TypeError("Cannot convert to object. Type is not Map")
 
     var array = Array.from(map.entries()) // array of touples
     var obj = {}
     array.forEach(function(data){
-        obj[data[0]] = data[1]
+        var index = data[0]
+        var info = data[1]
+        if(info instanceof ArrayBuffer || info instanceof Buffer)
+            info = exports.buff.encode(info)    // typecast to base64
+        obj[index] = info
     })
     return obj
 }
