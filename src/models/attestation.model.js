@@ -5,8 +5,8 @@ const buff = require('./helpers').buff
  */
 class PublicKeyCredentialCreationOptions {
     /**
-     * Creates an object from an base64 buffers encoded object
-     * @param {*} o object with challenge and user.id as base64 buffers
+     * Creates an object from an base64url buffers encoded object
+     * @param {*} o object with challenge and user.id as base64url buffers
      */
     static decode(o){
         var obj = {}
@@ -33,7 +33,7 @@ class PublicKeyCredentialCreationOptions {
     }
     
     /**
-     * Encodes the buffers in the object to base64
+     * Encodes the buffers in the object to base64url
      * @param {} o PublicKeyCredentialCreationOptions
      */
     static encode(o){
@@ -64,7 +64,7 @@ class PublicKeyCredentialCreationOptions {
 class PublicKeyCredentialCreationExpectations{
     /**
      * 
-     * @param {*} challenge Base64 encoded challenge
+     * @param {*} challenge base64url encoded challenge
      * @param {*} origin Origin URL (e.g. https://my.origin.com)
      * @param {*} factor "first", "second" or "either"
      */
@@ -77,14 +77,14 @@ class PublicKeyCredentialCreationExpectations{
 
 class AuthenticatorAttestationResponse {
     /**
-     * Creates an object from an base64 buffers encoded object
+     * Creates an object from an base64url buffers encoded object
      * @param {*} o object with response.attestationObject and response.clientDataJSON e
-     *              encoded as base64 buffers
+     *              encoded as base64url buffers
      */
     static decode(o){
         var obj = {};
         obj.id = o.id;
-        obj.rawId = Buffer.from(o.rawId).buffer;
+        obj.rawId = buff.decode(o.rawId);
         obj.response = {
             attestationObject: o.response.attestationObject,
             clientDataJSON: o.response.clientDataJSON
@@ -93,13 +93,13 @@ class AuthenticatorAttestationResponse {
     }
 
     /**
-     * Encodes the buffers in the object to base64
+     * Encodes the buffers in the object to base64url
      * @param {} o AuthenticatorAttestationResponse
      */
     static encode(o){
         var obj = {};
         obj.id = o.id;
-        obj.rawId = Buffer.from(o.rawId);
+        obj.rawId = buff.encode(o.rawId);
         obj.response = {
             attestationObject: buff.encode(o.response.attestationObject),
             clientDataJSON: buff.encode(o.response.clientDataJSON)
