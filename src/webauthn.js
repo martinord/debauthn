@@ -1,5 +1,6 @@
 const fido2lib = require('fido2-lib').Fido2Lib
 const config = require('./config/webauthn')
+const buff = require('./models/helpers').buff
 const { PublicKeyCredentialCreationOptions, 
         AuthenticatorAttestationResponse,
         PublicKeyCredentialCreationExpectations 
@@ -50,31 +51,51 @@ exports.finishAttestation = async function(attResponse, attExpectations){
         credential: {
             publicKey: attResult.authnrData.get('credentialPublicKeyPem'),
             counter: attResult.authnrData.get('counter'),
-            rawId: Buffer.from(attResult.authnrData.get('credId')).toString('base64')
+            rawId: buff.encode(attResult.authnrData.get('credId'))
         }
     }
 }
 
-exports.beginAssertion = async function(origin, factor, allowCredentials){
+exports.beginAssertion = async function(origin, factor, registeredCredentials){
     options = await wauth.assertionOptions()
     // Assign expectations for Attestation to be stored
-    options.allowCredentials = [{ id: allowCredentials[0].rawId }] // TODO: change with model, only supports one
+    options.allowCredentials = []
+    if(registeredCredentials == undefined)
+        throw new Error("No registered credentials. Register a credential before authenticating")
+    registeredCredentials.forEach(function(credential){
+        options.allowCredentials.push({
+            type: "public-key",
+            id: credential.rawId
+        })
+    })
     options = PublicKeyCredentialRequestOptions.encode(options)
-    expectations = new PublicKeyCredentialRequestExpectations(
-        options.challenge,
-        origin,
-        factor,
-        allowCredentials[0].publicKey,  // TODO: change, only supports one
-        allowCredentials[0].counter,    
-        null    // user handle
-    )
+    expectations = {
+        challenge: options.challenge,
+        origin: origin,
+        factor: factor
+    }
     return { options: options, expectations: expectations } 
 }
 
-exports.finishAssertion = async function(assResponse, assExpectations){
+exports.finishAssertion = async function(assResponse, assExpectations, registeredCredentials){
     assResponse = AuthenticatorAssertionResponse.decode(assResponse)
-    assResult = await wauth.assertionResult(assResponse, assExpectations)
 
+    // create expectations for the concrete assessed credential
+    var credential = registeredCredentials.find(cred => cred.rawId === assResponse.id) 
+    assExpectations = new PublicKeyCredentialRequestExpectations(
+        assExpectations.challenge,
+        assExpectations.origin,
+        assExpectations.factor,
+        credential.publicKey,
+        credential.counter,
+        null // user handle
+    )
+
+    assResult = await wauth.assertionResult(assResponse, assExpectations)
+    
+    // update credential counter
+    credential.counter = assResult.authnrData.get('counter')
+    
     return {
         result: new Validation({
             complete: assResult.audit.complete,
@@ -83,5 +104,6 @@ exports.finishAssertion = async function(assResponse, assExpectations){
             authnrData: assResult.authnrData,
             clientData: assResult.clientData
         }),
-        /* counter: ....*/ }
+        credential: credential, 
+    }
 }

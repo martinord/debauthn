@@ -18,13 +18,15 @@ class PublicKeyCredentialRequestOptions {
         if(o.timeout)
             obj.timeout = o.timeout
 
-        if(o.allowCredentials)
-            obj.allowCredentials = [    // TODO: only supports one credential
-                {
+        if(o.allowCredentials){
+            obj.allowCredentials = []
+            o.allowCredentials.forEach(function(credential){
+                obj.allowCredentials.push({
                     type: "public-key",
-                    id: buff.decode(o.allowCredentials[0].id) 
-                }
-            ]
+                    id: buff.decode(credential.id) 
+                })
+            })
+        }
         
         if(o.userVerification)
             obj.userVerification = o.userVerification
@@ -52,13 +54,15 @@ class PublicKeyCredentialRequestOptions {
         if(o.timeout)
             obj.timeout = o.timeout
 
-        if(o.allowCredentials)
-            obj.allowCredentials = [    // TODO: only supports one credential
-                {
+        if(o.allowCredentials){
+            obj.allowCredentials = []
+            o.allowCredentials.forEach(function(credential){
+                obj.allowCredentials.push({
                     type: "public-key",
-                    id: buff.encode(o.allowCredentials[0].id) 
-                }
-            ]
+                    id: buff.encode(credential.id) 
+                })
+            })
+        }
         
         if(o.userVerification)
             obj.userVerification = o.userVerification
