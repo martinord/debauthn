@@ -103,7 +103,6 @@ exports.finishAssertion = async function(assResponse, assExpectations, registere
             warning: assResult.audit.warning,
             authnrData: assResult.authnrData,
             clientData: assResult.clientData
-        }),
-        credential: credential, 
+        })
     }
 }

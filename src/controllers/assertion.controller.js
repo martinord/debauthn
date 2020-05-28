@@ -26,8 +26,7 @@ exports.result = async function(req, res, next){
     assResponse = req.body
     try {
         ass = await wauth.finishAssertion(assResponse, assExpectations, registeredCredentials)
-        // stores new counter and sends assertion result
-        // TODO: update the counter in the registeredCredentials with ass.credential
+        // sends the result
         res.send(ass.result)
         next()
     } catch (err) {
