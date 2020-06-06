@@ -1,4 +1,5 @@
-const fido2lib = require('fido2-lib').Fido2Lib
+// const fido2lib = require('fido2-lib').Fido2Lib
+const fido2lib = require('fido2-library').Fido2Lib
 const config = require('./config/webauthn')
 const buff = require('./models/helpers').buff
 const { PublicKeyCredentialCreationOptions, 
