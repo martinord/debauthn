@@ -8,7 +8,7 @@ exports.options = async function(req, res, next){
         // webauthn begin assertion
         ass = await wauth.beginAssertion(
             origin,
-            "second",    // TODO: create configuration for this
+            "either",    // TODO: create configuration for this
             registeredCredentials
         )
         // stores expectations in session and sends options to client

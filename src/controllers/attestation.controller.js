@@ -6,7 +6,7 @@ exports.options = async function(req, res, next){
     // webauthn begin attestation
     att = await wauth.beginAttestation(
         origin,
-        "second"    // TODO: create configuration for this
+        "either"    // TODO: create configuration for this
     )
     // stores expectations in session and sends options to client
     req.session.attExpectations = att.expectations
