@@ -3,10 +3,12 @@ const wauth = require('../webauthn')
 exports.options = async function(req, res, next){
     // get origin from request
     origin = 'https://'+req.get('host')
+    registeredCredentials = req.session.registeredCredentials
     // webauthn begin attestation
     att = await wauth.beginAttestation(
         origin,
-        "either"    // TODO: create configuration for this
+        "either",    // TODO: create configuration for this
+        registeredCredentials
     )
     // stores expectations in session and sends options to client
     req.session.attExpectations = att.expectations

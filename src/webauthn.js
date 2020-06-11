@@ -25,9 +25,18 @@ var wauth = new fido2lib({
  * @param origin: origin of the request (e.g. https://my.origin.com)
  * @param factor: "first", "second" or "either"
  */
-exports.beginAttestation = async function(origin, factor){
+exports.beginAttestation = async function(origin, factor, registeredCredentials){
     options = await wauth.attestationOptions()
     options.user.id = new Uint8Array(16)   // TODO: new random ID
+    options.excludeCredentials = []
+    if(registeredCredentials !== undefined){
+        registeredCredentials.forEach(function(credential){
+            options.excludeCredentials.push({
+                type: "public-key",
+                id: credential.rawId
+            })
+        })
+    }
     options = PublicKeyCredentialCreationOptions.encode(options)
     // Assign expectations for Attestation to be stored
     expectations = new PublicKeyCredentialCreationExpectations(

@@ -23,8 +23,15 @@ class PublicKeyCredentialCreationOptions {
             obj.attestation = o.attestation;
         if(o.timeout)
             obj.timeout = o.timeout
-        if(o.excludeCredentials)
-            obj.excludeCredentials = o.excludeCredentials
+        if(o.excludeCredentials){
+            obj.excludeCredentials = []
+            o.excludeCredentials.forEach(function(credential){
+                obj.excludeCredentials.push({
+                    type: "public-key",
+                    id: buff.decode(credential.id) 
+                })
+            })
+        }
         if(o.authenticatorSelection)
             obj.authenticatorSelection = o.authenticatorSelection
         // if(o.extensions)
@@ -51,8 +58,15 @@ class PublicKeyCredentialCreationOptions {
             obj.attestation = o.attestation;
         if(o.timeout)
             obj.timeout = o.timeout
-        if(o.excludeCredentials)
-            obj.excludeCredentials = o.excludeCredentials
+        if(o.excludeCredentials){
+            obj.excludeCredentials = []
+            o.excludeCredentials.forEach(function(credential){
+                obj.excludeCredentials.push({
+                    type: "public-key",
+                    id: buff.encode(credential.id) 
+                })
+            })
+        }
         if(o.authenticatorSelection)
             obj.authenticatorSelection = o.authenticatorSelection
         // if(o.extensions)
