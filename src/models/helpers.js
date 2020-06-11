@@ -54,8 +54,8 @@ exports.buff = {
 }
 
 exports.mapToJSON = function (map) {
-    if (!(map instanceof Map))
-        throw new TypeError("Cannot convert to object. Type is not Map")
+    if (!(map instanceof Map) && !(map instanceof Set))
+        throw new TypeError("Cannot convert to object. Type is not Map or Set")
 
     var array = Array.from(map.entries()) // array of touples
     var obj = {}
@@ -64,6 +64,15 @@ exports.mapToJSON = function (map) {
         var info = data[1]
         if(info instanceof ArrayBuffer || info instanceof Buffer)
             info = exports.buff.encode(info)    // typecast to base64
+        else if(info instanceof Map || info instanceof Set)
+            info = exports.mapToJSON(info)
+        else if(JSON.stringify(info)==="{}"){   // the object will not be stringified
+            var data = []
+            for(let [key, value] of Object.entries(info)){
+                data.push(key + ": " + value)
+            }
+            info = data
+        }
         obj[index] = info
     })
     return obj
