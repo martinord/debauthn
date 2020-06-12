@@ -11,7 +11,10 @@ npm start
 ```
 
 ## Setting up TLS
-Use only for development purposes
+
+In production, configure tlsEnabled to `false` in `src/config/server.js`.
+
+For development purposes, you can generate self-signed TLS certificates:
 
 ``` bash
 mkdir tls
