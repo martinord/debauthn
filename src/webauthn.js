@@ -71,7 +71,7 @@ exports.beginAssertion = async function(origin, factor, registeredCredentials){
     options = await wauth.assertionOptions()
     // Assign expectations for Attestation to be stored
     options.allowCredentials = []
-    if(registeredCredentials == undefined)
+    if(registeredCredentials == undefined || registeredCredentials.length < 1)
         throw new Error("No registered credentials. Register a credential before authenticating")
     registeredCredentials.forEach(function(credential){
         options.allowCredentials.push({

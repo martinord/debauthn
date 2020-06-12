@@ -5,3 +5,9 @@ exports.getRegisteredCredentials = function(req,res, next) {
     res.send(cred)
     next()
 }
+
+exports.deleteRegisteredCredentials = function(req, res, next) {
+    req.session.registeredCredentials = []  // empty stored credentials
+    res.send()
+    next()
+}
