@@ -1,0 +1,41 @@
+diff --git a/node_modules/fido2-library/lib/main.js b/node_modules/fido2-library/lib/main.js
+index c027e0a..a863161 100644
+--- a/node_modules/fido2-library/lib/main.js
++++ b/node_modules/fido2-library/lib/main.js
+@@ -242,7 +242,7 @@ class Fido2Lib {
+      */
+ 	async attestationResult(res, expected) {
+ 		expected.flags = factorToFlags(expected.factor, ["AT"]);
+-		delete expected.factor;
++		// delete expected.factor;
+ 		return Fido2AttestationResult.create(res, expected);
+ 	}
+ 
+@@ -343,7 +343,7 @@ class Fido2Lib {
+      */
+ 	async assertionResult(res, expected) {
+ 		expected.flags = factorToFlags(expected.factor, []);
+-		delete expected.factor;
++		// delete expected.factor;
+ 		return Fido2AssertionResult.create(res, expected);
+ 	}
+ 
+diff --git a/node_modules/fido2-library/lib/parser.js b/node_modules/fido2-library/lib/parser.js
+index 6cf84c8..d9e1f91 100644
+--- a/node_modules/fido2-library/lib/parser.js
++++ b/node_modules/fido2-library/lib/parser.js
+@@ -227,10 +227,10 @@ function parseAuthenticatorData(authnrDataArrayBuffer) {
+ 	}
+ 
+ 	// TODO: parse extensions
+-	if (extensions) {
+-		// extensionStart = offset
+-		throw new Error("authenticator extensions not supported");
+-	}
++	// if (extensions) {
++	// 	// extensionStart = offset
++	// 	throw new Error("authenticator extensions not supported");
++	// }
+ 
+ 	return ret;
+ }

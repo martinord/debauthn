@@ -27,7 +27,7 @@ var wauth = new fido2lib({
  */
 exports.beginAttestation = async function(origin, factor, registeredCredentials){
     options = await wauth.attestationOptions()
-    options.user.id = new Uint8Array(16)   // TODO: new random ID
+    options.user.id = new Uint8Array(16)   // fake user ID
     options.excludeCredentials = []
     if(registeredCredentials !== undefined){
         registeredCredentials.forEach(function(credential){
@@ -44,10 +44,10 @@ exports.beginAttestation = async function(origin, factor, registeredCredentials)
         origin, 
         factor    
     )
-    return { options: options, expectations: expectations }   
+    return { options: options, expectations: expectations, userHandle: options.user.id }   
 }
 
-exports.finishAttestation = async function(attResponse, attExpectations){
+exports.finishAttestation = async function(attResponse, attExpectations, userHandle){
     attResponse = AuthenticatorAttestationResponse.decode(attResponse)
     attResult = await wauth.attestationResult(attResponse, attExpectations)     
     return { 
@@ -61,7 +61,8 @@ exports.finishAttestation = async function(attResponse, attExpectations){
         credential: {
             publicKey: attResult.authnrData.get('credentialPublicKeyPem'),
             counter: attResult.authnrData.get('counter'),
-            rawId: buff.encode(attResult.authnrData.get('credId'))
+            rawId: buff.encode(attResult.authnrData.get('credId')),
+            userHandle: userHandle
         }
     }
 }
@@ -98,7 +99,7 @@ exports.finishAssertion = async function(assResponse, assExpectations, registere
         assExpectations.factor,
         credential.publicKey,
         credential.counter,
-        null // user handle
+        credential.userHandle
     )
 
     assResult = await wauth.assertionResult(assResponse, assExpectations)

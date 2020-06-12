@@ -2,7 +2,7 @@ module.exports = {
     port: 5000,
     secret: "SecretTestForDevelopment",
     mongoURI: "mongodb://localhost/debauthn",
-    tlsEnabled: false,
+    tlsEnabled: true,
     tls: {
         privateKey: "tls/private.key",
         certificate: "tls/certificate.crt"

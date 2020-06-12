@@ -4,7 +4,8 @@
   "description": "Backend for WebAuthn debugging tool",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "postinstall": "patch-package"
   },
   "author": "Martiño Rivera Dourado (@martinord)",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "express-session": "^1.17.0",
     "fido2-library": "^2.5.0",
     "https": "^1.0.0",
-    "mongoose": "^5.9.6"
+    "mongoose": "^5.9.6",
+    "patch-package": "^6.2.2"
   }
 }
