@@ -93,6 +93,9 @@ exports.finishAssertion = async function(assResponse, assExpectations, registere
 
     // create expectations for the concrete assessed credential
     var credential = registeredCredentials.find(cred => cred.rawId === assResponse.id) 
+    if(credential === undefined) 
+        throw new Error("This credential is not registered in the system. The public key was not found")
+
     assExpectations = new PublicKeyCredentialRequestExpectations(
         assExpectations.challenge,
         assExpectations.origin,
