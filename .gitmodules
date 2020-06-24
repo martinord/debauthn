@@ -1,0 +1,3 @@
+[submodule "debauthn-frontend"]
+	path = debauthn-frontend
+	url = https://github.com/martinord/debauthn-frontend

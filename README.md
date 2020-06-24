@@ -8,18 +8,26 @@
   A WebAuthn Authenticator Debugging Tool
 </p>
 
+
+## Prerequisites
+
+- A MongoDB server: a docker instance or `mongod`.
+- A TLS setup. All requests need to use TLS (HTTPS). 
+- NodeJS (v10 or v12 recommended).
+
 ## Start
 
-Copy the frontend files to `src/public`, generated from [this repository](https://github.com/martinord/debauthn-frontend/).
+There is a deployment script that helps with all steps. Run `./deploy.sh --help` for more information.
+
+Then run:
 
 ``` bash
-npm install
-npm start
+./deploy.sh --all
 ```
 
 ## Setting up TLS
 
-In production, configure tlsEnabled to `false` in `src/config/server.js`.
+In production, it is recommended to use a server like NGINX with TLS that forwards the petitions to DebAuthn. For doing this, configure tlsEnabled to `false` in `src/config/server.js`.
 
 For development purposes, you can generate self-signed TLS certificates:
 
