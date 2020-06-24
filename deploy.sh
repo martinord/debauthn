@@ -9,7 +9,7 @@ NC='\033[0m' # No Color
 install(){
     echo -e "\n${GREEN}## Intalling the backend dependencies and applying patches ...${DGRAY}"
     npm install && npm run postinstall
-    echo -e "\n${YELLOW} ## Done!"
+    echo -e "\n${YELLOW} ## Done!${NC}"
 }
 
 server(){
@@ -35,7 +35,7 @@ build_front(){
     echo -e "\n${RED}#5 ${GREEN}Copying files ...${DGRAY}"
     cp -r dist/* ../src/public/
 
-    echo -e "\n${YELLOW}## Done! Now you have successfully built and you are ready to go!"
+    echo -e "\n${YELLOW}## Done! Now you have successfully built and you are ready to go!${NC}"
     cd ..
 }
 
@@ -59,7 +59,7 @@ usage(){
     echo "   -f|--front   : Builds the front and installs it"
     echo "   -d|--docker  : Creates a docker image"
     echo "   -h|--help    : Displays this help"
-    echo -e "${YELLOW} \n Check the server configuration at /src/config"    
+    echo -e "${YELLOW} \n Check the server configuration at /src/config${NC}"    
 }
 
 
