@@ -1,9 +1,16 @@
-# DebAuthn Backend
-__WebAuthn Authenticator Debugging Tool__
+<p align="center">
+  <a href="https://debauthn.tic.udc.es">
+    <img alt="debauthn" src="https://github.com/martinord/debauthn-backend/blob/master/docs/header.png">
+  </a>
+</p>
+
+<p align="center">
+  A WebAuthn Authenticator Debugging Tool
+</p>
 
 ## Start
 
-Copy the frontend files to `src/public`.
+Copy the frontend files to `src/public`, generated from [this repository](https://github.com/martinord/debauthn-frontend/).
 
 ``` bash
 npm install
