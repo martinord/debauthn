@@ -1,5 +1,4 @@
 module.exports = {
-    rpId: "localhost",
-    rpName: "DebAuthn"
+    rpId: process.env.RP_ID || "localhost",
+    rpName: process.env.RP_NAME || "DebAuthn"
 }
-// TODO: use NODE Environment

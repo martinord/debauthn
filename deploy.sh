@@ -14,7 +14,7 @@ install(){
 
 server(){
     echo -e "\n${GREEN}## Starting Debauthn server ..."
-    echo -e "\n${YELLOW}!!Warning: check all configuration at /src/config${DGRAY}"
+    echo -e "\n${YELLOW}!!Warning: check all configuration at /src/config and the environment variables${DGRAY}"
     npm run start
 }
 
@@ -40,7 +40,9 @@ build_front(){
 }
 
 docker(){
-    echo "Docker not yet implemented"
+    echo -e "\n${GREEN}## Building and deploying the whole project (will take some minutes) ...${DGRAY}"
+    echo -e "\n${YELLOW}!!Warning: check all configuration at docker-compose.yml.${DGRAY}"
+    docker-compose up -d --build
 }
 
 all(){
@@ -82,7 +84,6 @@ case $1 in
         build_front
         ;;
     -d|--docker)
-        build_front
         docker
         ;;
     -h|--help)

@@ -17,7 +17,7 @@
 
 ## Start
 
-There is a deployment script that helps with all steps. Run `./deploy.sh --help` for more information.
+There is a deployment script that helps with all steps. Run `./deploy.sh --help` for more information. A MongoDB should be running (check the configuration files at `src/config`).
 
 Then run:
 
@@ -25,9 +25,17 @@ Then run:
 ./deploy.sh --all
 ```
 
+## Docker deployment
+
+This deployment would deploy with `docker-compose` the MongoDB and DebAuthn. First, review the configuration at `docker-compose.yml`. Then, run:
+
+```bash
+./deploy.sh --docker
+```
+
 ## Setting up TLS
 
-In production, it is recommended to use a server like NGINX with TLS that forwards the petitions to DebAuthn. For doing this, configure tlsEnabled to `false` in `src/config/server.js`.
+In production, it is recommended to use a server like NGINX with TLS that forwards the petitions to DebAuthn.
 
 For development purposes, you can generate self-signed TLS certificates:
 
@@ -35,6 +43,8 @@ For development purposes, you can generate self-signed TLS certificates:
 mkdir tls
 openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout tls/private.key -out tls/certificate.crt
 ```
+
+Also set `TLS=true` as an environment variable when running the project.
 
 ## Dependencies: adding functionality
 Apply patches to the dependencies for adding functionality:

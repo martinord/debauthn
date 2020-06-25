@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  debauthn:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - SECRET="SecretForDeploymentPurposes!"
+      - MONGO=mongo
+      - TLS=false
+      - RP_ID=localhost
+      - RP_NAME=DebAuthn
+  mongo:
+    image: "mongo:4.2"
+    ports:
+      - "127.0.0.1:27017-27019:27017-27019"
