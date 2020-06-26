@@ -9,7 +9,7 @@ const config = require('./config/server.js')    // configuration file
 const app = express()
 
 // Connect to Mongo
-mongoose.connect(config.mongoURI, { 
+mongoose.connect("mongodb://"+config.mongo+"/debauthn", { 
     useNewUrlParser: true, 
     useUnifiedTopology: true 
 })
