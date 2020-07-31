@@ -30,9 +30,10 @@ build_front(){
     npm run build || { echo -e "${RED}Error when building the frontend" && exit; }
     
     echo -e "\n${RED}#4 ${GREEN}Removing public folder at the backend public folder ...${DGRAY}"
-    rm -rf ../src/public/*
+    rm -rf ../src/public/
     
     echo -e "\n${RED}#5 ${GREEN}Copying files ...${DGRAY}"
+    mkdir ../src/public
     cp -r dist/* ../src/public/
 
     echo -e "\n${YELLOW}## Done! Now you have successfully built and you are ready to go!${NC}"
