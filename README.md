@@ -27,10 +27,22 @@ Then run:
 
 ## Docker deployment
 
+### Local build
+
 This deployment would deploy with `docker-compose` the MongoDB and DebAuthn. First, review the configuration at `docker-compose.yml`. Then, run:
 
 ```bash
 ./deploy.sh --docker
+```
+
+### Public build
+
+You can also use the built image available at [Docker Hub](https://hub.docker.com/r/martinord/debauthn). For deplying, use [this `docker-compose.yml`](https://gist.github.com/martinord/c76bd20a336782b5c9343bb4456703d0) instead.
+
+```bash
+git clone https://gist.github.com/c76bd20a336782b5c9343bb4456703d0.git
+cd c76bd20a336782b5c9343bb4456703d0/
+docker-compose up -d
 ```
 
 ## Setting up TLS
