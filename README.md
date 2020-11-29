@@ -8,6 +8,13 @@
   A WebAuthn Authenticator Debugging Tool
 </p>
 
+![GitHub](https://img.shields.io/github/license/martinord/debauthn)
+![Docker Cloud Automated build](https://img.shields.io/docker/cloud/automated/martinord/debauthn)
+![Docker Pulls](https://img.shields.io/docker/pulls/martinord/debauthn)
+![Docker Cloud Build Status](https://img.shields.io/docker/cloud/build/martinord/debauthn)
+![GitHub last commit](https://img.shields.io/github/last-commit/martinord/debauthn)
+![GitHub last commit](https://img.shields.io/github/last-commit/martinord/debauthn-frontend?label=frontend%20last%20commit)
+
 
 ## Prerequisites
 
