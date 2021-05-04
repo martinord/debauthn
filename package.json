@@ -16,7 +16,7 @@
     "express-session": "^1.17.0",
     "fido2-library": "^2.5.1",
     "https": "^1.0.0",
-    "mongoose": "^5.10.14",
+    "mongoose": "^5.12.7",
     "patch-package": "^6.2.2"
   }
 }
