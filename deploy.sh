@@ -19,7 +19,7 @@ server(){
 }
 
 build_front(){
-    echo -e "\n${RED}#1 ${GREEN}Cloning the front code ...${DGRAY}"mo   
+    echo -e "\n${RED}#1 ${GREEN}Cloning the front code ...${DGRAY}"  
     git submodule update --init --recursive || { echo -e "${RED}Error when cloning the code" && exit; }
     cd debauthn-frontend
 
