@@ -4,7 +4,8 @@ const express = require('express'),
       mongoose = require('mongoose'),
       bodyParser = require('body-parser'),
       fs = require('fs'),
-      https = require('https')
+      https = require('https'),
+      history = require('connect-history-api-fallback')
 const config = require('./config/server.js')    // configuration file
 const app = express()
 
@@ -32,6 +33,9 @@ app.use(session({
 
 // Body Parser
 app.use(bodyParser.json())
+
+// Use frontend router history mode
+app.use(history())
 
 // Serve static content
 app.use('/', express.static('src/public'))
