@@ -2,7 +2,6 @@ const express = require('express'),
       session = require('express-session'),
       mongoStore = require('connect-mongo')(session),
       mongoose = require('mongoose'),
-      bodyParser = require('body-parser'),
       fs = require('fs'),
       https = require('https'),
       history = require('connect-history-api-fallback')
@@ -32,7 +31,7 @@ app.use(session({
 }))
 
 // Body Parser
-app.use(bodyParser.json())
+app.use(express.json())
 
 // Use frontend router history mode
 app.use(history())
