@@ -3,7 +3,7 @@ const wauth = require('../webauthn')
 exports.options = async function(req, res, next){
     // get origin from request
     origin = 'https://'+req.get('host')
-    registeredCredentials = req.session.registeredCredentials
+    registeredCredentials = req.session.registeredCredentials || []
     try {
         // webauthn begin assertion
         ass = await wauth.beginAssertion(
