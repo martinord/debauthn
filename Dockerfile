@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:lts-gallium
 WORKDIR /usr/src/app
 COPY . .
 RUN ./deploy.sh --install
