@@ -1,7 +1,7 @@
-diff --git a/node_modules/fido2-library/lib/main.js b/node_modules/fido2-library/lib/main.js
-index c027e0a..a863161 100644
---- a/node_modules/fido2-library/lib/main.js
-+++ b/node_modules/fido2-library/lib/main.js
+diff --git a/node_modules/fido2-lib/lib/main.js b/node_modules/fido2-lib/lib/main.js
+index 4c9fa29..3ac66e6 100644
+--- a/node_modules/fido2-lib/lib/main.js
++++ b/node_modules/fido2-lib/lib/main.js
 @@ -242,7 +242,7 @@ class Fido2Lib {
       */
  	async attestationResult(res, expected) {
@@ -20,11 +20,11 @@ index c027e0a..a863161 100644
  		return Fido2AssertionResult.create(res, expected);
  	}
  
-diff --git a/node_modules/fido2-library/lib/parser.js b/node_modules/fido2-library/lib/parser.js
-index 6cf84c8..d9e1f91 100644
---- a/node_modules/fido2-library/lib/parser.js
-+++ b/node_modules/fido2-library/lib/parser.js
-@@ -227,10 +227,10 @@ function parseAuthenticatorData(authnrDataArrayBuffer) {
+diff --git a/node_modules/fido2-lib/lib/parser.js b/node_modules/fido2-lib/lib/parser.js
+index b402562..6e67c7b 100644
+--- a/node_modules/fido2-lib/lib/parser.js
++++ b/node_modules/fido2-lib/lib/parser.js
+@@ -317,10 +317,10 @@ function parseAuthenticatorData(authnrDataArrayBuffer) {
  	}
  
  	// TODO: parse extensions
