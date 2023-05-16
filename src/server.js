@@ -49,6 +49,8 @@ app.use(function (err, req, res, next) {
     next()
 })
 
+globalThis.rpID = config.rpID || 'localhost';
+
 if(config.tlsEnabled){
     // Configure HTTPS
     var privateKey  = fs.readFileSync(config.tls.privateKey, 'utf8')    // TLS
@@ -59,8 +61,10 @@ if(config.tlsEnabled){
 
     const port = config.port
     httpsServer.listen(port, () => console.log(`Basic app listening on https://localhost:${port}/ !`))
+    globalThis.expectedOrigin = `https://${rpID}:${port}`;
 } else{
     // Configure HTTP
     const port = config.port
     app.listen(port, () => console.log(`Basic app listening on http://localhost:${port}/ !`))
+    globalThis.expectedOrigin = `https://${rpID}:${port}`;
 }

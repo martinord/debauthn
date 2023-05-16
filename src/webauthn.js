@@ -21,6 +21,19 @@ var wauth = new fido2lib({
 })
 
 /**
+ * Generates a random user id of 32 characters
+ */
+exports.generateRandomUserId = function() {
+    let outString = '';
+    const inOptions = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+    for (let i = 0; i < 32; i++) 
+        outString += inOptions.charAt(Math.floor(Math.random() * inOptions.length));
+
+        return outString;
+}
+
+/**
  * Starts Attestation ceremony and requests attestation options
  * @param origin: origin of the request (e.g. https://my.origin.com)
  * @param factor: "first", "second" or "either"
