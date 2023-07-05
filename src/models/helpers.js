@@ -43,11 +43,6 @@ exports.buff = {
         if (thing instanceof Buffer || Array.isArray(thing)) {
             thing = new Uint8Array(thing);
         }
-    
-        // Uint8Array to ArrayBuffer
-        if (thing instanceof Uint8Array) {
-            thing = thing.buffer;
-        }
 
         return thing
     }

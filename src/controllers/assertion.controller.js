@@ -1,19 +1,33 @@
 const wauth = require('../webauthn')
+const buff = require('../models/helpers').buff
+
+const {
+    // Registration
+    generateRegistrationOptions,
+    verifyRegistrationResponse,
+    // Authentication
+    generateAuthenticationOptions,
+    verifyAuthenticationResponse
+} = require('@simplewebauthn/server')
 
 exports.options = async function(req, res, next){
-    // get origin from request
-    origin = 'https://'+req.get('host')
-    registeredCredentials = req.session.registeredCredentials || []
     try {
-        // webauthn begin assertion
-        ass = await wauth.beginAssertion(
-            origin,
-            "either",    // TODO: create configuration for this
-            registeredCredentials
-        )
-        // stores expectations in session and sends options to client
-        req.session.assExpectations = ass.expectations
-        res.send(ass.options)
+        const opts = {
+            timeout: 60000,
+            allowCredentials: req.session.registeredCredentials.map(authenticator => ({
+                id: buff.decode(authenticator.credentialID),
+                type: 'public-key',
+                transports: authenticator.transports
+            })),
+            userVerification: 'discouraged',
+            rpID: req.get('host').split(":")[0],
+        };
+
+        const options = generateAuthenticationOptions(opts);
+        
+        req.session.challenge = options.challenge;
+
+        res.send(options)
         next()
     } catch (err) {
         next(err)
@@ -21,15 +35,38 @@ exports.options = async function(req, res, next){
 }
 
 exports.result = async function(req, res, next){
-    assExpectations = req.session.assExpectations
-    registeredCredentials = req.session.registeredCredentials
-    assResponse = req.body
+    expectedChallenge = req.session.challenge
+
+    let credential = req.session.registeredCredentials.find(credential => credential.credentialID === req.body.id)
+
+    let thisDevice = {
+        credentialPublicKey: buff.decode(credential.credentialPublicKey),
+        credentialID: buff.decode(credential.credentialID),
+        counter: credential.counter,
+        transports: credential.transports || [],
+    }
+
     try {
-        ass = await wauth.finishAssertion(assResponse, assExpectations, registeredCredentials)
-        // sends the result
-        res.send(ass.result)
-        next()
+        const opts = {
+            response: req.body,
+            expectedChallenge: `${expectedChallenge}`,
+            expectedOrigin,
+            expectedRPID: req.get('host').split(":")[0],
+            requireUserVerification: false,
+            authenticator: thisDevice,
+        };
+        verification = await verifyAuthenticationResponse(opts);
+
+        const { verified, authenticationInfo } = verification;
+
+        if (verified) {
+            // Update the authenticator's counter in the DB to the newest count in the authentication
+            credential.counter = authenticationInfo.newCounter;
+        }
+
+        res.send(verification)
     } catch (err) {
+        console.error(err)
         next(err)   // send to error handler
     }
 }
