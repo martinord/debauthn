@@ -14,11 +14,11 @@ exports.options = async function(req, res, next){
     try {
         const opts = {
             timeout: 60000,
-            allowCredentials: req.session.registeredCredentials.map(authenticator => ({
+            allowCredentials: req.session.registeredCredentials ? req.session.registeredCredentials.map(authenticator => ({
                 id: buff.decode(authenticator.credentialID),
                 type: 'public-key',
                 transports: authenticator.transports
-            })),
+            })) : [],
             userVerification: 'discouraged',
             rpID: req.get('host').split(":")[0],
         };
