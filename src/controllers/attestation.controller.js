@@ -21,7 +21,11 @@ exports.options = async function(req, res, next){
         userName: 'john.smith@debauthn.example',
         timeout: 60000,
         attestationType: 'direct',
-        excludeCredentials: [], // use req.session.registeredCredentials
+        excludeCredentials: req.session.registeredCredentials.map(authenticator => ({
+                id: buff.decode(authenticator.credentialID),
+                type: 'public-key',
+                transports: authenticator.transports
+            })),
         authenticatorSelection: {
             requireResidentKey: false,
             userVerification: 'discouraged',
