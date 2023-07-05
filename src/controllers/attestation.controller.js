@@ -1,3 +1,4 @@
+const { response } = require('express')
 const wauth = require('../webauthn')
 const buff = require('../models/helpers').buff
 
@@ -79,7 +80,13 @@ exports.result = async function(req, res, next){
 
             req.session.registeredCredentials.push(newDevice)
 
-            res.send(verification)
+            // Encode verification buffers
+            var response_data = JSON.parse(JSON.stringify(verification))
+            if (verification.registrationInfo.attestationObject) response_data.registrationInfo.attestationObject = buff.encode(verification.registrationInfo.attestationObject);
+            if (verification.registrationInfo.credentialID) response_data.registrationInfo.credentialID = buff.encode(verification.registrationInfo.credentialID);
+            if (verification.registrationInfo.credentialPublicKey) response_data.registrationInfo.credentialPublicKey = buff.encode(verification.registrationInfo.credentialPublicKey);
+
+            res.send(response_data)
         }
     } catch (error) {
         next(error) //send to error handler

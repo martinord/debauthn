@@ -64,7 +64,11 @@ exports.result = async function(req, res, next){
             credential.counter = authenticationInfo.newCounter;
         }
 
-        res.send(verification)
+        // Encode verification buffers
+        var response_data = JSON.parse(JSON.stringify(verification))
+        if (verification.authenticationInfo.credentialID) response_data.authenticationInfo.credentialID = buff.encode(verification.authenticationInfo.credentialID);
+
+        res.send(response_data)
     } catch (err) {
         console.error(err)
         next(err)   // send to error handler
