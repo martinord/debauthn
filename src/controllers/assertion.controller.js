@@ -20,7 +20,7 @@ exports.options = async function(req, res, next){
                 transports: authenticator.transports
             })) : [],
             userVerification: 'discouraged',
-            rpID: req.get('host').split(":")[0],
+            rpID: globalThis.rpID,
         };
 
         const options = generateAuthenticationOptions(opts);
@@ -51,7 +51,7 @@ exports.result = async function(req, res, next){
             response: req.body,
             expectedChallenge: `${expectedChallenge}`,
             expectedOrigin,
-            expectedRPID: req.get('host').split(":")[0],
+            expectedRPID: globalThis.rpID,
             requireUserVerification: false,
             authenticator: thisDevice,
         };

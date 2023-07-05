@@ -17,7 +17,7 @@ exports.options = async function(req, res, next){
 
     const opts = {
         rpName: 'DebAuthn',
-        rpID: req.get('host').split(":")[0],
+        rpID: globalThis.rpID,
         userID: userId,
         userName: 'john.smith@debauthn.example',
         timeout: 60000,
@@ -57,7 +57,7 @@ exports.result = async function(req, res, next){
             response: attResponse,
             expectedChallenge: `${expectedChallenge}`,
             expectedOrigin,
-            expectedRPID: req.get('host').split(":")[0],
+            expectedRPID: globalThis.rpID,
             requireUserVerification: false,
             supportedAlgorithmIDs: [-7, -257]
         };

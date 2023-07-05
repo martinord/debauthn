@@ -61,10 +61,10 @@ if(config.tlsEnabled){
 
     const port = config.port
     httpsServer.listen(port, () => console.log(`Basic app listening on https://localhost:${port}/ !`))
-    globalThis.expectedOrigin = `https://${rpID}:${port}`;
+    globalThis.expectedOrigin = config.origin || `https://${rpID}:${port}`;
 } else{
     // Configure HTTP
     const port = config.port
     app.listen(port, () => console.log(`Basic app listening on http://localhost:${port}/ !`))
-    globalThis.expectedOrigin = `https://${rpID}:${port}`;
+    globalThis.expectedOrigin = config.origin || `https://${rpID}:${port}`;
 }
