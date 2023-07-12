@@ -21,6 +21,10 @@ exports.options = async function(req, res, next){
             })) : [],
             userVerification: 'discouraged',
             rpID: globalThis.rpID,
+            extensions: {
+                credProps: true,
+                hmacCreateSecret: false
+            }
         };
 
         const options = generateAuthenticationOptions(opts);

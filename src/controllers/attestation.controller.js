@@ -33,6 +33,10 @@ exports.options = async function(req, res, next){
             residentKey: 'discouraged'
         },
         supportedAlgorithmIDs: [-7, -257],
+        extensions: {
+            credProps: true,
+            hmacCreateSecret: false
+        }
     };
 
     const options = generateRegistrationOptions(opts);
